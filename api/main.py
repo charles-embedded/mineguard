@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 import sqlite3
 
 from fastapi import FastAPI
@@ -10,12 +11,15 @@ DATABASE_PATH = Path(__file__).parent.parent / "database" / "mineguard.db"
 app = FastAPI(title="MineGuard API")
 
 
+# Frontend URL for CORS
+FRONTEND_ORIGIN = os.getenv(
+    "FRONTEND_ORIGIN",
+    "http://localhost:5173"
+)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://localhost:5174",
-    ],
+    allow_origins=[FRONTEND_ORIGIN],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
