@@ -60,7 +60,7 @@ export const MineDataProvider: React.FC<{ children: ReactNode }> = ({
   const [activeTab, setActiveTab] = useState<NavTab>('overview');
 
   const [workers, setWorkers] = useState<Worker[]>(INITIAL_WORKERS);
-  const [zones, setZones] = useState<MineZone[]>(INITIAL_ZONES);
+ const [zones] = useState<MineZone[]>(INITIAL_ZONES);
   const [alerts, setAlerts] = useState<SafetyAlert[]>(INITIAL_ALERTS);
 
   const [aiEvents] = useState<AISafetyEvent[]>(INITIAL_AI_EVENTS);
@@ -93,7 +93,7 @@ export const MineDataProvider: React.FC<{ children: ReactNode }> = ({
       id: data.worker_id,
       name: data.name,
       zone: data.zone,
-      status: data.motion_detected ? 'ACTIVE' : 'OFFLINE',
+      status: data.motion_detected ? 'SAFE' : 'WARNING',
 
       vitals: {
         ...(existingWorker?.vitals || INITIAL_WORKERS[0].vitals),
@@ -151,7 +151,7 @@ export const MineDataProvider: React.FC<{ children: ReactNode }> = ({
           timestamp: new Date(alert.timestamp).toLocaleTimeString(),
           severity: alert.severity,
           status: alert.acknowledged ? 'ACKNOWLEDGED' : 'ACTIVE',
-          category: 'SENSOR',
+          category: 'BIOMETRIC',
           zone: alert.zone,
           zoneName: alert.zone,
           title: alert.alert_type,
